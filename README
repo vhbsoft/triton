@@ -1,0 +1,16 @@
+Project objective: Detecting compression in the network
+
+Project Directory Structure:
+
+./            Makefile and configure scripts
+./src         General sources
+./src/include Header files that expose the public interface and are to be installed
+./lib         Library build directory (required libraries)
+./bin         Build directory
+./tools       External tools sources
+./test        Test suites that should be run during a `make test`
+./scripts     Project scripts
+./log         Program logs 
+./documents   Project documents
+./etc	      Everything else
+
