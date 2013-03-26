@@ -19,7 +19,7 @@ dest_addr = sys.argv[1] #from command-line: First Argument
 compression_node_addr = sys.argv[2] #from command-line: Second Argument 
 
 results_data_file_path = "~/triton/results_data/"
-log_file_path = "~/triton/results_data/"  #for errors
+log_file_path = "~/triton/logs/"  #for errors
 
 #set time stamp
 current_time = datetime.datetime.now() #formatted time from python
