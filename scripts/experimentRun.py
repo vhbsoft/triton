@@ -18,10 +18,8 @@ probe_packet_length = 1480 # 20 bytes for compression header (assumption: 1500 i
 dest_addr = sys.argv[1] #from command-line: First Argument
 compression_node_addr = sys.argv[2] #from command-line: Second Argument 
 
-#results_data_file_path = "~/triton/results_data/"
-#log_file_path = "~/triton/results_data/"  #for errors
-results_data_file_path = "results_data/"
-log_file_path = "results_data/"  #for errors
+results_data_file_path = "~/triton/results_data/"
+log_file_path = "~/triton/results_data/"  #for errors
 
 #set time stamp
 current_time = datetime.datetime.now() #formatted time from python
@@ -30,7 +28,7 @@ current_timestamp_posix = time.mktime(current_time.timetuple()) #formats it to u
 # Run for low entropy
 entropy = 'L'
 results_data_file = results_data_file_path + str(int(current_timestamp_posix)) + '_L.dat'
-log_data_file = log_file_path + str(int(current_timestamp_posix)) + '_L.dat'
+log_data_file = log_file_path + str(int(current_timestamp_posix)) + '_L.log'
 
 #open log file to write to
 log_file = open(log_data_file, 'w+')
@@ -59,7 +57,7 @@ current_timestamp_posix = time.mktime(current_time.timetuple()) #formats it to u
 # Run for high entropy
 entropy = 'H'
 results_data_file = results_data_file_path + str(int(current_timestamp_posix)) + '_H.dat'
-log_data_file = log_file_path + str(int(current_timestamp_posix)) + '_H.dat'
+log_data_file = log_file_path + str(int(current_timestamp_posix)) + '_H.log'
 
 #open log file to write to
 log_file = open(log_data_file, 'w+')
