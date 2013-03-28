@@ -5,13 +5,16 @@
 #include "stdlib.h"     /* for atoi() and exit() */
 #include "string.h"     /* for memset() */
 #include "unistd.h"     /* for close() */
+
+/*SERVER PORT*/
+#define SERVER_PORT 16400
+
 enum error_t PreExperimentTCPConnection(int num_of_packets,
                       unsigned long inter_packet_departure_spacing,
                       int probe_packet_length,
                       int* timeout_estimation,
                       char* dest_addr){
   /*Declertion of Constants*/
-  const unsigned short SERVER_PORT = 16400;  /* Server port */
   const size_t INTEGER_SIZE=sizeof(int);     /*Length of integer */
   const size_t LONG_SIZE=sizeof(unsigned long);/*Length of Long*/
   /* Length of send buffer holding int, unsigned long, int */
@@ -29,19 +32,25 @@ enum error_t PreExperimentTCPConnection(int num_of_packets,
   memcpy((sendBuffer+INTEGER_SIZE+LONG_SIZE), &probe_packet_length, INTEGER_SIZE);
   /*Initiate a TCP connection*/
   /* Create a reliable, stream socket using TCP */
-  if ((sock = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0)
-    return -1;
+  if ((sock = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0){
+    fprintf(stderr, "ERROR #%d: Socket Setup Error", SOCKET_SETUP_ERROR);
+    return SOCKET_SETUP_ERROR;
+  }
   /* Construct the server address structure */
   memset(&servAddr, 0, sizeof(servAddr));         /* Zero out structure */
   servAddr.sin_family      = AF_INET;             /* Internet address family*/
   servAddr.sin_addr.s_addr = inet_addr(servIP);   /* Server IP address */
   servAddr.sin_port        = htons(SERVER_PORT);     /* Server port */
   /* Establish the connection to the echo server */
-  if (connect(sock, (struct sockaddr *) &servAddr, sizeof(servAddr)) < 0)
-    return -1;
+  if (connect(sock, (struct sockaddr *) &servAddr, sizeof(servAddr)) < 0){
+    fprintf(stderr, "ERROR #%d: Connection Setup Error", CONNECT_ERROR);
+    return CONNECT_ERROR;
+  }
   /* Send the data to the server */
-  if (send(sock, sendBuffer, BUFFER_SEND_LENGTH, 0) != BUFFER_SEND_LENGTH)
-    return -1;
+  if (send(sock, sendBuffer, BUFFER_SEND_LENGTH, 0) != BUFFER_SEND_LENGTH){
+    fprintf(stderr, "ERROR #%d: Send Data Error", SEND_ERROR);
+    return SEND_ERROR;
+  }
   /*Close Socket*/
   close(sock);
   return 0;
