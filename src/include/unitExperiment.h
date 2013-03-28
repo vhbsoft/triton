@@ -1,8 +1,19 @@
 #ifndef UNITEXPERIMENT_H
 #define UNITEXPERIMENT_H
 enum error_t {
- SUCCESS        = 0,
- FAIL           = 1,
+ SUCCESS                              = 0,
+ FAIL                                 = 1,
+ PRE_EXPERIMENT_TCP_SENDER_FAILED     = 2,
+ PRE_EXPERIMENT_TCP_RECEIVER_FAILED   = 3,
+ POST_EXPERIMENT_TCP_SENDER_FAILED    = 4,
+ POST_EXPERIMENT_TCP_RECEIVER_FAILED  = 5,
+ SOCKET_SETUP_ERROR                   = 102,
+ CONNECT_ERROR                        = 103,
+ SEND_ERROR                           = 104,
+ RECEIVE_ERROR                        = 105,
+ BIND_ERROR                           = 106,
+ LISTEN_ERROR                         = 107,
+ ACCEPT_CLIENT_ERROR                  = 108
 };
 enum error_t PreExperimentTCPConnection(
         int num_of_packets,
