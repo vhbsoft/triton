@@ -10,18 +10,19 @@ enum error_t {
  POST_EXPERIMENT_TCP_RECEIVER_FAILED  = 5,
  UDP_TRAIN_GENERATOR_FAILED           = 6,
  UDP_TRAIN_RECEIVER_FAILED            = 7,
- SOCKET_SETUP_ERROR                   = 102,
- CONNECT_ERROR                        = 103,
- SEND_ERROR                           = 104,
- RECEIVE_ERROR                        = 105,
- BIND_ERROR                           = 106,
- LISTEN_ERROR                         = 107,
- ACCEPT_CLIENT_ERROR                  = 108,
- ADDRINFO_ERROR                       = 109,
- DEVRANDOM_ERROR                      = 110,
- ENTROPY_PARAM_ERROR                  = 111,
- COMPRESSION_ERROR                    = 112,
- DECOMPRESSION_ERROR                  = 113
+ SOCKET_SETUP_ERROR                   = 101,
+ CONNECT_ERROR                        = 102,
+ SEND_ERROR                           = 103,
+ RECEIVE_ERROR                        = 104,
+ BIND_ERROR                           = 105,
+ LISTEN_ERROR                         = 106,
+ ACCEPT_CLIENT_ERROR                  = 107,
+ ADDRINFO_ERROR                       = 108,
+ DEVRANDOM_ERROR                      = 201,
+ ENTROPY_PARAM_ERROR                  = 202,
+ COMPRESSION_ERROR                    = 203,
+ DECOMPRESSION_ERROR                  = 204,
+ PTHREAD_ERROR                        = 301
 };
 
 
@@ -62,5 +63,11 @@ enum error_t PostExperimentTCPReceiver(
         char* send_buffer, //The Data that was received during UDP connection
         int send_buffer_length //Length of Buffer received during UDP connection
         );
+
+enum error_t CompressionNodeUnitExperiment(bool apply_compression,
+			      char* decompression_node_addr);
+
+enum error_t DecompressionNodeUnitExperiment(bool applied_compression, 
+				char* dest_addr);
 
 #endif

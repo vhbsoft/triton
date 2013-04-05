@@ -52,7 +52,10 @@ int main(int argc, char *argv[])
 	td.send_buffer = send_buffer;
 	td.send_buffer_length = send_buffer_length;
 	if (pthread_create(&t0, NULL, (void*)w_UDPTrainGenerator, (void*) &td) == -1)
-		return -1;
+	{
+		fprintf(stderr, "ERROR #%d: Pthread Error", PTHREAD_ERROR);	
+		return PTHREAD_ERROR;
+	}
 
   /*Call initial TCP Connection to Set up receiver*/
   if(PostExperimentTCPReceiver(send_buffer, send_buffer_length) != 0)
