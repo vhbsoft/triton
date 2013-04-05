@@ -1,3 +1,8 @@
+/*
+Example of usage:
+$./compression_node 1 “131.179.192.201”
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -13,7 +18,7 @@
 #define UDP_PROBE_PORT_NUMBER "200"
 #define MAX_PACKET_SIZE 10000
 
-int CompressionNodeUnitExperiment(bool apply_compression,
+enum error_t CompressionNodeUnitExperiment(bool apply_compression,
 			      char* decompression_node_addr)
 {
 
@@ -28,20 +33,23 @@ int CompressionNodeUnitExperiment(bool apply_compression,
   int status = getaddrinfo(NULL, UDP_PROBE_PORT_NUMBER, &hints, &my_addr_info);
   if (status != 0)
     {
-      return ADDRINFO_ERROR;
+	fprintf(stderr, "ERROR #%d: Address Information Error", ADDRINFO_ERROR);
+	return ADDRINFO_ERROR;
     }
 
   int recv_socket = socket(my_addr_info->ai_family, my_addr_info->ai_socktype, my_addr_info->ai_protocol);
   if (recv_socket == -1)
     {
-      return SOCKET_SETUP_ERROR;
+	fprintf(stderr, "ERROR #%d: Socket Setup Error", SOCKET_SETUP_ERROR);
+	return SOCKET_SETUP_ERROR;
     }
 
   status = bind(recv_socket, my_addr_info->ai_addr, my_addr_info->ai_addrlen);
   if (status == -1)
     {
-      close (recv_socket);
-      return BIND_ERROR;
+	fprintf(stderr, "ERROR #%d: Binding Error", BIND_ERROR);
+	close (recv_socket);
+	return BIND_ERROR;
     }
   
   freeaddrinfo(my_addr_info);
@@ -55,13 +63,15 @@ int CompressionNodeUnitExperiment(bool apply_compression,
   status = getaddrinfo(decompression_node_addr, UDP_PROBE_PORT_NUMBER, &hints, &dest_addr_info);
   if (status != 0)
     {
-      return ADDRINFO_ERROR;
+	fprintf(stderr, "ERROR #%d: Address Information Error", ADDRINFO_ERROR);
+	return ADDRINFO_ERROR;
     }
 
   int send_socket = socket(dest_addr_info->ai_family, dest_addr_info->ai_socktype, dest_addr_info->ai_protocol);
   if (send_socket == -1)
     {
-      return SOCKET_SETUP_ERROR;
+	fprintf(stderr, "ERROR #%d: Socket Setup Error", SOCKET_SETUP_ERROR);
+	return SOCKET_SETUP_ERROR;
     }
 
   // Main forwarding loop
@@ -86,7 +96,8 @@ int CompressionNodeUnitExperiment(bool apply_compression,
 	      int res = deflate(&strm, Z_NO_FLUSH);
 	      if (res != Z_OK)
 	        {
-	          return COMPRESSION_ERROR;
+			fprintf(stderr, "ERROR #%d: compression Error", COMPRESSION_ERROR);			
+			return COMPRESSION_ERROR;
 	        }
 	    }
           int deflate_res = Z_OK;
@@ -117,7 +128,7 @@ int CompressionNodeUnitExperiment(bool apply_compression,
 
 int main (int argc, char *argv[])
 {
-  return CompressionNodeUnitExperiment (argv[1], argv[2]);
+  return (CompressionNodeUnitExperiment (argv[1], argv[2]) == SUCCESS);
 }
 
 
