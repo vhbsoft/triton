@@ -85,25 +85,27 @@ enum error_t CompressionNodeUnitExperiment(bool apply_compression,
 	{
           // Zlib Compression
       	  z_stream strm;
-      	  strm.zalloc = 0;
-      	  strm.zfree = 0;
+      	  strm.zalloc = Z_NULL;
+      	  strm.zfree = Z_NULL;
+	  strm.opaque = Z_NULL;
       	  strm.next_in = (uint8_t*) packet_buffer;
      	  strm.avail_in = packet_size;
     	  strm.next_out = (uint8_t*) compression_buffer;
           strm.avail_out = MAX_PACKET_SIZE;
-    	  while (strm.avail_in != 0) 
+	  if (deflateInit(&strm, Z_DEFAULT_COMPRESSION) != Z_OK)
 	    {
-	      int res = deflate(&strm, Z_NO_FLUSH);
-	      if (res != Z_OK)
-	        {
-			fprintf(stderr, "ERROR #%d: compression Error", COMPRESSION_ERROR);			
-			return COMPRESSION_ERROR;
-	        }
+	      fprintf(stderr, "Error #%d: deflateInit compression error", COMPRESSION_ERROR);
+	      return COMPRESSION_ERROR;
 	    }
-          int deflate_res = Z_OK;
-          while (deflate_res == Z_OK)
+	  if (deflateBound(&strm, packet_size) > MAX_PACKET_SIZE)
 	    {
-	      deflate_res = deflate(&strm, Z_FINISH);
+	      fprintf(stderr, "Error #%d: deflateBound compression error", COMPRESSION_ERROR);
+	      return COMPRESSION_ERROR;
+	    }
+	  if (deflate(&strm, Z_FINISH) != Z_STREAM_END)
+	    {
+	      fprintf(stderr, "ERROR #%d: deflate compression Error", COMPRESSION_ERROR);			
+	      return COMPRESSION_ERROR;
 	    }
           int compressed_packet_size = strm.total_out;
           deflateEnd(&strm);

@@ -84,22 +84,27 @@ enum error_t DecompressionNodeUnitExperiment(bool applied_compression,
 
       if (applied_compression)
 	{
-          // Zlib Decompression
-          z_stream strm;
-          strm.zalloc = 0;
-          strm.zfree = 0;
+	  // Zlib decompression	 
+	  z_stream strm;
+          strm.zalloc = Z_NULL;
+          strm.zfree = Z_NULL;
+	  strm.opaque = Z_NULL;
           strm.next_in = (uint8_t*) packet_buffer;
           strm.avail_in = packet_size;
           strm.next_out = (uint8_t*) decompression_buffer;
           strm.avail_out = MAX_PACKET_SIZE;
-          int inflate_res = inflate(&strm, Z_FINISH);
-          if (inflate_res != Z_STREAM_END)
+	  if(inflateInit(&strm) != Z_OK)
 	    {
-		fprintf(stderr, "ERROR #%d: Decompression Error", DECOMPRESSION_ERROR);
+		fprintf(stderr, "ERROR #%d: inflateInit Decompression Error", DECOMPRESSION_ERROR);
 		return DECOMPRESSION_ERROR;
 	    }  
-          inflateEnd(&strm);
+          if (inflate(&strm, Z_FINISH) != Z_STREAM_END)
+	    {
+		fprintf(stderr, "ERROR #%d: inflate Decompression Error", DECOMPRESSION_ERROR);
+		return DECOMPRESSION_ERROR;
+	    }  
           int decompressed_packet_size = strm.total_out;
+          inflateEnd(&strm);
 
           // Send decompressed IP packet
           sendto(send_socket, decompression_buffer, decompressed_packet_size, 0, dest_addr_info->ai_addr, dest_addr_info->ai_addrlen); 
