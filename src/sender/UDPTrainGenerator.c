@@ -10,7 +10,7 @@
 #include "unitExperiment.h"
 
 
-#define UDP_PROBE_PORT_NUMBER "200"
+#define UDP_PROBE_PORT_NUMBER "2000"
 
 error_t UDPTrainGenerator (int num_of_packets,
                        unsigned long inter_packet_departure_spacing,

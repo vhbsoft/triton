@@ -11,7 +11,7 @@
 
 #include "unitExperiment.h"
 
-#define UDP_PROBE_PORT_NUMBER "200"
+#define UDP_PROBE_PORT_NUMBER "2000"
 
 struct timespec diff(struct timespec start, struct timespec end)
 {
