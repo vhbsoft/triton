@@ -10,9 +10,9 @@
 #include "unitExperiment.h"
 
 
-#define UDP_PROBE_PORT_NUMBER "2000"
+#define UDP_PROBE_PORT_NUMBER "9876"
 
-error_t UDPTrainGenerator (int num_of_packets,
+enum error_t UDPTrainGenerator (int num_of_packets,
                        unsigned long inter_packet_departure_spacing,
                        int probe_packet_length,  
                        char entropy,
@@ -70,15 +70,22 @@ error_t UDPTrainGenerator (int num_of_packets,
   *((int*) packet_data) = packet_seq_id;
   time_t last_send = time(NULL);
 
+  struct timespec inter_packet_departure_spacing_struct;
+  inter_packet_departure_spacing_struct.tv_sec = 0;
+  inter_packet_departure_spacing_struct.tv_nsec = inter_packet_departure_spacing;
+
+  struct timespec remaining_departure_spacing;
+
   while (packet_seq_id < num_of_packets)
     {
 
-      if ( difftime(time(NULL), last_send) >= inter_packet_departure_spacing)
-	{
 	  sendto(send_socket, packet_data, probe_packet_length, 0, dest_addr_info->ai_addr, dest_addr_info->ai_addrlen); 
 	  packet_seq_id++;
 	  *((int*) packet_data) = packet_seq_id;
-	}
+
+          //to incorperate inter packet departure spacing
+          nanosleep(&inter_packet_departure_spacing_struct, &remaining_departure_spacing);
+
     }
 
   freeaddrinfo (dest_addr_info);

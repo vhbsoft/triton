@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
   char*              compression_node_addr = argv[6];
   unsigned long      packet_train_timeout = strtoul(argv[7],0,0);     //[0,10^6]     in msec
   char*              entropy = argv[8]; 
-  int* timeout_estimation;
+  int timeout_estimation = 3;
 
   /*Call initial TCP Connection to Set up receiver*/
   if(PreExperimentTCPConnection(num_of_packets,inter_packet_departure_spacing,
@@ -36,14 +36,14 @@ int main(int argc, char *argv[])
 
   /*Call UDP Connection to Send Data to Receiver*/
   if(UDPTrainGenerator(num_of_packets,inter_packet_departure_spacing,  
-                      probe_packet_length,entropy,compression_node_addr) != 0)
+                      probe_packet_length,entropy[0],compression_node_addr) != 0)
   {
     fprintf(stderr, "ERROR #%d: UDP Train Generator Error", UDP_TRAIN_GENERATOR_FAILED);
     return UDP_TRAIN_GENERATOR_FAILED;                    
   }
 
   /*CREATE WAIT TIMEOUT FUNCTION*/
-  sleep(*timeout_estimation);
+  sleep(timeout_estimation);
 
   /*Call Final TCP Connection to receive packets*/
   if(PostExperimentTCPConnection(experiment_run_log_absolute_filename, dest_addr) != 0)

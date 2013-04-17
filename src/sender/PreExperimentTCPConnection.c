@@ -47,13 +47,14 @@ enum error_t PreExperimentTCPConnection(int num_of_packets,
   /* Construct the server address structure */
   memset(&servAddr, 0, sizeof(servAddr));         /* Zero out structure */
   servAddr.sin_family      = AF_INET;             /* Internet address family*/
-  servAddr.sin_addr.s_addr = inet_addr(servIP);   /* Server IP address */
-  servAddr.sin_port        = htons(SERVER_PORT);     /* Server port */
+  //servAddr.sin_addr.s_addr = inet_addr(servIP);   /* Server IP address */
+  	inet_pton(AF_INET, servIP, &servAddr.sin_addr);
+	servAddr.sin_port        = htons(SERVER_PORT);     /* Server port */
 
   /* Establish the connection to the echo server */
   if (connect(sock, (struct sockaddr *) &servAddr, sizeof(servAddr)) < 0)
   {
-    fprintf(stderr, "ERROR #%d: Connection Setup Error", CONNECT_ERROR);
+    fprintf(stderr, "ERROR #%d: Connection Setup Error IP = %s", CONNECT_ERROR,servIP);
     return CONNECT_ERROR;
   }
 
