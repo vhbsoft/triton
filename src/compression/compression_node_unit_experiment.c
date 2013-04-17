@@ -15,7 +15,7 @@ $./compression_node 1 “131.179.192.201”
 
 #include "unitExperiment.h"
 
-#define UDP_PROBE_PORT_NUMBER "2000"
+#define UDP_PROBE_PORT_NUMBER "9876"
 #define MAX_PACKET_SIZE 10000
 
 enum error_t CompressionNodeUnitExperiment(bool apply_compression,
