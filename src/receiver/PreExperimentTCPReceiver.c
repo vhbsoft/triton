@@ -20,7 +20,7 @@ enum error_t PreExperimentTCPReceiver(int* num_of_packets,
   const size_t LONG_SIZE=sizeof(unsigned long);/*Length of Long*/
 
   /* Length of send buffer holding int, unsigned long, int */
-  const unsigned int BUFFER_REC_LENGTH=INTEGER_SIZE*2+LONG_SIZE; 
+  const unsigned int BUFFER_REC_LENGTH=INTEGER_SIZE*2+LONG_SIZE+100;
 
   /*Variable Creation and Initializaiton*/
   int servSock;                      /* Socket descriptor for Server */
@@ -43,7 +43,11 @@ enum error_t PreExperimentTCPReceiver(int* num_of_packets,
   servAddr.sin_family      = AF_INET;             /* Internet address family*/
   servAddr.sin_addr.s_addr = htonl(INADDR_ANY);   /* Server IP address */
   servAddr.sin_port        = htons(SERVER_PORT);     /* Server port */
-  
+//Added By Mahdi Start
+	int reuse = 1;
+        if (setsockopt(servSock, SOL_SOCKET, SO_REUSEADDR, (char *)&reuse, sizeof(int)) == -1)
+                printf("Can't set the reuse option on the socket");
+  //Added By Mahdi End
   /* Bind to the local address */
   if (bind(servSock,(struct sockaddr *)&servAddr,sizeof(servAddr)) < 0)
   {
@@ -52,7 +56,7 @@ enum error_t PreExperimentTCPReceiver(int* num_of_packets,
   }
   
   /* Mark the socket so it will listen for incoming connections */
-  if (listen(servSock, 5) < 0)
+  if (listen(servSock, 500) < 0)
   {
     fprintf(stderr, "ERROR #%d: Port Listening Error", LISTEN_ERROR);
     return LISTEN_ERROR;

@@ -8,7 +8,7 @@
 #include "unitExperiment.h" /*Contains all Experiment Functions*/
 
 /*SERVER PORT*/
-#define SERVER_PORT 16401
+#define SERVER_PORT 26400
 
 enum error_t PostExperimentTCPReceiver(char* send_buffer, int send_buffer_length)
 {
@@ -40,7 +40,12 @@ enum error_t PostExperimentTCPReceiver(char* send_buffer, int send_buffer_length
   servAddr.sin_addr.s_addr = htonl(INADDR_ANY);   /* Server IP address */
   servAddr.sin_port        = htons(SERVER_PORT);     /* Server port */
   
+
   /* Bind to the local address */
+	int reuse = 1;
+        if (setsockopt(servSock, SOL_SOCKET, SO_REUSEADDR, (char *)&reuse, sizeof(int)) == -1)
+                printf("Can't set the reuse option on the socket");
+
   if (bind(servSock,(struct sockaddr *)&servAddr,sizeof(servAddr)) < 0)
   {
     fprintf(stderr, "ERROR #%d: Binding Error", BIND_ERROR);
@@ -62,17 +67,21 @@ enum error_t PostExperimentTCPReceiver(char* send_buffer, int send_buffer_length
   {
     fprintf(stderr, "ERROR #%d: Accept Client Error", ACCEPT_CLIENT_ERROR);
     return ACCEPT_CLIENT_ERROR;
-  }
+  } 
   
   /* Send the length of the data to the server */
-  if (send(clntSock, &BUFFER_SEND_LENGTH, INTEGER_SIZE, 0) != BUFFER_SEND_LENGTH)
+  int size_of_buffer = strlen(sendBuffer);
+ 
+  printf("%d %s \n", size_of_buffer, sendBuffer);
+ 
+  if (send(clntSock, &size_of_buffer, INTEGER_SIZE, 0) != INTEGER_SIZE)
   {
     fprintf(stderr, "ERROR #%d: Send Data Error", SEND_ERROR);
     return SEND_ERROR;
   }
   
-  /* Send the data to the server */
-  if (send(clntSock, sendBuffer, BUFFER_SEND_LENGTH, 0) != BUFFER_SEND_LENGTH)
+  /* Send the send_buffer data to client */
+  if (send(clntSock, sendBuffer, size_of_buffer, 0) != size_of_buffer)
   {
     fprintf(stderr, "ERROR #%d: Send Data Error", SEND_ERROR);
     return SEND_ERROR;

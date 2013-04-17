@@ -1,12 +1,12 @@
+CC    =    gcc
+IDIR    =    ../include
+CFLAGS    =    -O3 -Wall
+CFLAGS    +=    -I$(IDIR)
 
-CC	=	gcc
-IDIR	=	../include
-CFLAGS	=	-O3 -Wall
-CFLAGS	+=	-I$(IDIR)
-
-HDR	=	unitExperiment.h
-SRC	=	UDPTrainReceiver.c PreExperimentTCPReceiver.c PostExperimentTCPReceiver.c
-OBJ 	=	$(SRC:.c=.o)
+HDR    =    unitExperiment.h
+SRC    =    unitExperimentReceiver.c
+SRC    +=    UDPTrainReceiver.c PostExperimentTCPReceiver.c PreExperimentTCPReceiver.c
+OBJ     =    $(SRC:.c=.o)
 
 #LIBS=-lm
 
@@ -14,9 +14,9 @@ OBJ 	=	$(SRC:.c=.o)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 unitExperimentReceiver: $(OBJ)
-	$(CC) -o $@ $^ $(CFLAGS)
+	$(CC)  -o $@ $^ $(CFLAGS) -lrt -lpthread
 
-.PHONY:	clean
+.PHONY:    clean
 
 clean:
 	rm -f $(OBJ) *~ core unitExperimentReceiver

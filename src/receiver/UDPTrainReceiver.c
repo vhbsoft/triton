@@ -8,10 +8,10 @@
 #include <stdbool.h>
 #include <time.h>
 #include <signal.h>
-
+#include <pthread.h>
 #include "unitExperiment.h"
 
-#define UDP_PROBE_PORT_NUMBER "2000"
+#define UDP_PROBE_PORT_NUMBER "9876"
 
 struct timespec diff(struct timespec start, struct timespec end)
 {
@@ -30,7 +30,7 @@ void handle_shutdown(int sig)
 {
         if (recv_socket)
         	close(recv_socket);
-        return;
+        pthread_exit(NULL);
 
 }
 
@@ -62,6 +62,9 @@ enum error_t UDPTrainReceiver (char* buffer, unsigned long* buffer_length, int p
 	fprintf(stderr, "ERROR #%d: Socket Setup Error", SOCKET_SETUP_ERROR);
 	return SOCKET_SETUP_ERROR;
     }
+	int reuse = 1;
+        if (setsockopt(recv_socket, SOL_SOCKET, SO_REUSEADDR, (char *)&reuse, sizeof(int)) == -1)
+                printf("Can't set the reuse option on the socket");
 
   status = bind(recv_socket, my_addr_info->ai_addr, my_addr_info->ai_addrlen);
   if (status == -1)
@@ -82,8 +85,8 @@ enum error_t UDPTrainReceiver (char* buffer, unsigned long* buffer_length, int p
   struct timespec startTime, endTime;
   clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &startTime);
   char temp[100];
-  char packet_buffer[probe_packet_length];
-
+ // char packet_buffer[probe_packet_length];
+  char packet_buffer[2000];
   int log_size;
   int i;
 
@@ -94,17 +97,18 @@ enum error_t UDPTrainReceiver (char* buffer, unsigned long* buffer_length, int p
 		return SUCCESS;
 
 	//getting and storing the packet sequence ID
-	recvfrom(recv_socket, packet_buffer, probe_packet_length-1, 0, NULL, NULL);
+	int recvCount = recvfrom(recv_socket, packet_buffer, probe_packet_length-1, 0, NULL, NULL);
 	current_seq_id = *((int*) packet_buffer);
-
+	//printf("Data = %s \n",packet_buffer);
 	//If there is no missing packets
 	if (current_seq_id - last_seq_id == 1)
     	{
 
 		clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &endTime);
-		log_size = sprintf(temp, "%d\t%ld\n",current_seq_id, diff(startTime, endTime).tv_nsec);
+                log_size = sprintf(temp, "%d\t%ld\n",current_seq_id, diff(startTime, endTime).tv_nsec);
+		//log_size = sprintf(temp, "%d ",current_seq_id);
 		strcat(buffer,temp);
-
+		//printf("Data = %s\n", buffer);
 		buffer_length += log_size;
    
 		last_seq_id = current_seq_id;
