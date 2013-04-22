@@ -5,17 +5,28 @@
 #This script reads its arguments from a config file "postProcessingExperimentScenario.config"
 #So it takes only a single argument:  [path of the config file] (default path is current directory)
 
+import subprocess
+import os
+import sys
+import datetime
+import time
+import ConfigParser
+
+#Open Config File to Extract Values
+experiment_config_file_name = sys.argv[1]
+config = ConfigParser.RawConfigParser()
+config.readfp(open(experiment_config_file_name))
 
 #content of the config file with the following parameters (i.e. values are set by the config file)
-pl_node_address  #planetLab node address
-pl_raw_data_path =  #path to the dat files on the PlanetLab node (where copy from)
-raw_data_local_path #local path to copy the files into
-num_of_packets #number of packets used in each unit experiment, perhaps from .meta file
-packet_length #perhaps from .meta file
-inter_packet_departure_spacing #perhaps from .meta file
-log_file_path #for errors only for this script
-experiment_scenario_id
-intermediate_files_local_path #path of intermediate files created (e.g. aggregate delta file)
+pl_node_address =  config.get('DEFAULT', 'pl_node_addr')#planetLab node address
+pl_raw_data_path =  config.get('DEFAULT', 'pl_raw_data_path') #path to the dat files on the PlanetLab node (where copy from)
+raw_data_local_path = config.get('DEFAULT', 'raw_data_local_path') #local path to copy the files into
+num_of_packets = config.getint('DEFAULT', 'num_of_packets') #number of packets used in each unit experiment, perhaps from .meta file
+packet_length = config.getint('DEFAULT', 'packet_length') #perhaps from .meta file
+inter_packet_departure_spacing = config.getint('DEFAULT', 'inter_packet_departure_spacing') #perhaps from .meta file
+log_file_path = config.get('DEFAULT', 'log_file_path')  #for errors only for this script
+experiment_scenario_id = config.getint('DEFAULT', 'experiment_scenario_id') 
+intermediate_files_local_path = config.getint('DEFAULT', 'intermediate_files_local_path') #path of intermediate files created (e.g. aggregate delta file)
 
 
 ################################
@@ -23,10 +34,17 @@ intermediate_files_local_path #path of intermediate files created (e.g. aggregat
 ################################
 
 #print "Copying experiment data..."
+print "Copying Experiment data..."
+
 #mkdir where the raw experiment data will be copied to
 #mkdir raw_data_local_path/experiment_scenario_id
+os.mkdir(raw_data_local_path/experiment_scenario_id)
+
 #copy the files from the planetlab node to the local machine (using scp) 
 #from pl_node_address's pl_raw_data_path to raw_data_local_path/experiment_scenario_id
+
+
+
 
 ################################
 # VALIDATING RAW EXPERIMENT DATA
