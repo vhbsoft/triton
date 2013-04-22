@@ -15,8 +15,8 @@ enum error_t PostExperimentTCPReceiver(char* send_buffer, int send_buffer_length
 
   /*Declertion of Constants*/
   const size_t INTEGER_SIZE=sizeof(int);     /*Length of integer*/
-  const unsigned int BUFFER_SEND_LENGTH=send_buffer_length;  /* Length of send buffer */
-  const int IP_ADDRESS_BUFFER_LENGTH = 16;   /*length of buffer for IP Address*/
+  //const unsigned int BUFFER_SEND_LENGTH=send_buffer_length;  /* Length of send buffer */
+  //const int IP_ADDRESS_BUFFER_LENGTH = 16;   /*length of buffer for IP Address*/
 
   /*Variable Creation and Initializaiton*/
   int servSock;                      /* Socket descriptor for Server */

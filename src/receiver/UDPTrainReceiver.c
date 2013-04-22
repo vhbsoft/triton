@@ -38,7 +38,7 @@ enum error_t UDPTrainReceiver (char* buffer, unsigned long* buffer_length, int p
 {
 
   // Set up recv_socket
-	 if (signal(SIGINT, handle_shutdown) == -1)
+	 if (signal(SIGINT, handle_shutdown) == 0)
                 printf("Can’t set the interrupt handler");
 
   struct addrinfo hints;
@@ -96,7 +96,8 @@ enum error_t UDPTrainReceiver (char* buffer, unsigned long* buffer_length, int p
 		return SUCCESS;
 
 	//getting and storing the packet sequence ID
-	int recvCount = recvfrom(recv_socket, packet_buffer, probe_packet_length-1, 0, NULL, NULL);
+	//int recvCount = 
+	recvfrom(recv_socket, packet_buffer, probe_packet_length-1, 0, NULL, NULL);
 	current_seq_id = *((int*) packet_buffer);
 	//printf("Data = %s \n",packet_buffer);
 	//If there is no missing packets

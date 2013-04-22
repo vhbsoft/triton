@@ -13,8 +13,8 @@ Usage:
 struct thread_data
 {
   	int                probe_packet_length;
-	char*		   send_buffer;
-        int 		   send_buffer_length;
+  	char*		           send_buffer;
+  	long unsigned int  send_buffer_length;
 };
 
 char send_buffer[MAX_SEND_BUFFER_SIZE]; //Hardcoded based on max number of probe packets in each experiment = 6000
@@ -22,10 +22,11 @@ int send_buffer_length = 0;
 
 void w_UDPTrainGenerator(struct thread_data* td)
 {
-	if(UDPTrainReceiver(td->send_buffer, td->send_buffer_length, td->probe_packet_length) != 0)
+	if(UDPTrainReceiver(td->send_buffer, &(td->send_buffer_length), td->probe_packet_length) != 0)
 	{
 		fprintf(stderr, "ERROR #%d: UDP Train Receiver Error", UDP_TRAIN_RECEIVER_FAILED);
-    		return UDP_TRAIN_RECEIVER_FAILED;  	
+    		//return UDP_TRAIN_RECEIVER_FAILED;  	
+    		return;
 	}
 
 }
