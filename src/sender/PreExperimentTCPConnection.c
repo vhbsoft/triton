@@ -7,9 +7,6 @@
 
 #include "unitExperiment.h" /*Contains all Experiment Functions*/
 
-/*SERVER PORT*/
-#define SERVER_PORT 16400
-
 enum error_t PreExperimentTCPConnection(int num_of_packets,
                       unsigned long inter_packet_departure_spacing,
                       int probe_packet_length,
@@ -49,7 +46,7 @@ enum error_t PreExperimentTCPConnection(int num_of_packets,
   servAddr.sin_family      = AF_INET;             /* Internet address family*/
   //servAddr.sin_addr.s_addr = inet_addr(servIP);   /* Server IP address */
   	inet_pton(AF_INET, servIP, &servAddr.sin_addr);
-	servAddr.sin_port        = htons(SERVER_PORT);     /* Server port */
+	servAddr.sin_port        = htons(PRE_TCP_SERVER_PORT);     /* Server port */
 
   /* Establish the connection to the echo server */
   if (connect(sock, (struct sockaddr *) &servAddr, sizeof(servAddr)) < 0)

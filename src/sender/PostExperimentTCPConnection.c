@@ -7,9 +7,6 @@
 
 #include "unitExperiment.h" /*Contains all Experiment Functions*/
 
-/*SERVER PORT*/
-#define SERVER_PORT 26400
-
 enum error_t PostExperimentTCPConnection(char*  experiment_run_log_absolute_filename,
                               char* dest_addr){
 
@@ -36,7 +33,7 @@ enum error_t PostExperimentTCPConnection(char*  experiment_run_log_absolute_file
   memset(&servAddr, 0, sizeof(servAddr));         /* Zero out structure */
   servAddr.sin_family      = AF_INET;             /* Internet address family*/
   servAddr.sin_addr.s_addr = inet_addr(servIP);   /* Server IP address */
-  servAddr.sin_port        = htons(SERVER_PORT);     /* Server port */
+  servAddr.sin_port        = htons(POST_TCP_SERVER_PORT);     /* Server port */
 
   /* Establish the connection to the echo server */
   if (connect(sock, (struct sockaddr *) &servAddr, sizeof(servAddr)) < 0){

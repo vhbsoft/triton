@@ -9,7 +9,7 @@
 
 
 /*SERVER PORT*/
-#define SERVER_PORT 16400
+#define PRE_TCP_SERVER_PORT 16400
 
 enum error_t PreExperimentTCPReceiver(int* num_of_packets,
                       unsigned long* inter_packet_departure_spacing,
@@ -42,7 +42,7 @@ enum error_t PreExperimentTCPReceiver(int* num_of_packets,
   memset(&servAddr, 0, sizeof(servAddr));         /* Zero out structure */
   servAddr.sin_family      = AF_INET;             /* Internet address family*/
   servAddr.sin_addr.s_addr = htonl(INADDR_ANY);   /* Server IP address */
-  servAddr.sin_port        = htons(SERVER_PORT);     /* Server port */
+  servAddr.sin_port        = htons(PRE_TCP_SERVER_PORT);     /* Server port */
 //Added By Mahdi Start
 	int reuse = 1;
         if (setsockopt(servSock, SOL_SOCKET, SO_REUSEADDR, (char *)&reuse, sizeof(int)) == -1)

@@ -11,7 +11,6 @@
 #include <pthread.h>
 #include "unitExperiment.h"
 
-#define UDP_PROBE_PORT_NUMBER "9876"
 
 struct timespec diff(struct timespec start, struct timespec end)
 {

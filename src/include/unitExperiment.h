@@ -3,6 +3,9 @@
 
 /* Globally Defined Send Buffer Length*/
 #define MAX_SEND_BUFFER_SIZE 150000
+#define POST_TCP_SERVER_PORT 26400
+#define PRE_TCP_SERVER_PORT 16400
+#define UDP_PROBE_PORT_NUMBER "9876"
 
 enum error_t {
  SUCCESS                              = 0,
@@ -24,7 +27,8 @@ enum error_t {
  DEVRANDOM_ERROR                      = 110,
  ENTROPY_PARAM_ERROR                  = 111,
  COMPRESSION_ERROR                    = 112,
- DECOMPRESSION_ERROR                  = 113
+ DECOMPRESSION_ERROR                  = 113,
+ FREAD_ERROR                          = 114
 };
 
 

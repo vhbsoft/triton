@@ -8,7 +8,7 @@
 #include "unitExperiment.h" /*Contains all Experiment Functions*/
 
 /*SERVER PORT*/
-#define SERVER_PORT 26400
+#define POST_TCP_SERVER_PORT 26400
 
 enum error_t PostExperimentTCPReceiver(char* send_buffer, int send_buffer_length)
 {
@@ -38,7 +38,7 @@ enum error_t PostExperimentTCPReceiver(char* send_buffer, int send_buffer_length
   memset(&servAddr, 0, sizeof(servAddr));         /* Zero out structure */
   servAddr.sin_family      = AF_INET;             /* Internet address family*/
   servAddr.sin_addr.s_addr = htonl(INADDR_ANY);   /* Server IP address */
-  servAddr.sin_port        = htons(SERVER_PORT);     /* Server port */
+  servAddr.sin_port        = htons(POST_TCP_SERVER_PORT);     /* Server port */
   
 
   /* Bind to the local address */

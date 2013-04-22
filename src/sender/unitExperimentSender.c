@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
   }
 
   /*CREATE WAIT TIMEOUT FUNCTION*/
-  sleep(timeout_estimation);
+  sleep(packet_train_timeout);
 
   /*Call Final TCP Connection to receive packets*/
   if(PostExperimentTCPConnection(experiment_run_log_absolute_filename, dest_addr) != 0)

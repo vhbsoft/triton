@@ -57,7 +57,9 @@ enum error_t UDPTrainGenerator (int num_of_packets,
 		fprintf(stderr, "ERROR #%d: Reading From DevRandom Error", DEVRANDOM_ERROR);	
 		return DEVRANDOM_ERROR;
 	}
-      fread(packet_data, probe_packet_length, 1, urandom);
+      if( fread(packet_data, probe_packet_length, 1, urandom) != 1)
+        fprintf(stderr, "ERROR #%d: FREAD_ERROR", ENTROPY_PARAM_ERROR);	
+        
       fclose(urandom);
     }
   else
