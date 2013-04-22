@@ -9,7 +9,7 @@ Example:
 
 #include "stdio.h"
 #include "stdlib.h"
-#include "time.h"
+#include <unistd.h>
 
 #include "unitExperiment.h" /*Contains all Experiment Functions*/
 
@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
 
   /*Call initial TCP Connection to Set up receiver*/
   if(PreExperimentTCPConnection(num_of_packets,inter_packet_departure_spacing,
-                      probe_packet_length,timeout_estimation,dest_addr) != 0)
+                      probe_packet_length,&timeout_estimation,dest_addr) != 0)
   {
     fprintf(stderr, "ERROR #%d: PreExperiment TCP Sender Error", PRE_EXPERIMENT_TCP_SENDER_FAILED);
     return PRE_EXPERIMENT_TCP_SENDER_FAILED;                    
@@ -52,6 +52,7 @@ int main(int argc, char *argv[])
     return POST_EXPERIMENT_TCP_SENDER_FAILED;                    
   }
 
+  return SUCCESS;
 }
 
 

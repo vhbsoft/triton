@@ -68,13 +68,13 @@ enum error_t UDPTrainGenerator (int num_of_packets,
   
   int packet_seq_id = 0;
   *((int*) packet_data) = packet_seq_id;
-  time_t last_send = time(NULL);
+  //time_t last_send = time(NULL);
 
-  struct timespec inter_packet_departure_spacing_struct;
-  inter_packet_departure_spacing_struct.tv_sec = 0;
-  inter_packet_departure_spacing_struct.tv_nsec = inter_packet_departure_spacing;
+  //struct timespec inter_packet_departure_spacing_struct;
+  //inter_packet_departure_spacing_struct.tv_sec = 0;
+  //inter_packet_departure_spacing_struct.tv_nsec = inter_packet_departure_spacing;
 
-  struct timespec remaining_departure_spacing;
+  //struct timespec remaining_departure_spacing;
 
   while (packet_seq_id < num_of_packets)
     {
@@ -84,8 +84,8 @@ enum error_t UDPTrainGenerator (int num_of_packets,
 	  *((int*) packet_data) = packet_seq_id;
 
           //to incorperate inter packet departure spacing
-          nanosleep(&inter_packet_departure_spacing_struct, &remaining_departure_spacing);
-
+          //nanosleep(&inter_packet_departure_spacing_struct, &remaining_departure_spacing);
+          usleep(inter_packet_departure_spacing);
     }
 
   freeaddrinfo (dest_addr_info);
