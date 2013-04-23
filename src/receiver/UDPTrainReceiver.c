@@ -36,9 +36,9 @@ void handle_shutdown(int sig)
 
 enum error_t UDPTrainReceiver (char* buffer, unsigned long* buffer_length, int probe_packet_length)
 {
-
+//printf("INSIDE UDP TRAIN GENERATOR\n");
   // Set up recv_socket
-	 if (signal(SIGINT, handle_shutdown) == 0)
+	 if (signal(SIGINT, handle_shutdown) == SIG_ERR)
                 printf("Can’t set the interrupt handler");
 
   struct addrinfo hints;
@@ -54,7 +54,7 @@ enum error_t UDPTrainReceiver (char* buffer, unsigned long* buffer_length, int p
 	fprintf(stderr, "ERROR #%d: Address Information Error", ADDRINFO_ERROR);
 	return ADDRINFO_ERROR;
     }
-
+//printf("Receive Socket Start\n");
   int recv_socket = socket(my_addr_info->ai_family, my_addr_info->ai_socktype, my_addr_info->ai_protocol);
   if (recv_socket == -1)
     {
@@ -91,13 +91,16 @@ enum error_t UDPTrainReceiver (char* buffer, unsigned long* buffer_length, int p
 
   while (true) // This loop must be interrupted by the TCP connection
     {
-      
-	if(!recv_socket)
+      //printf("INSIDE LOOP\n");
+	if(!recv_socket){
+		//printf("recv_socket ended loop\n");		
 		return SUCCESS;
-
+	}
 	//getting and storing the packet sequence ID
 	//int recvCount = 
+	//printf("sending receivefrom pakets \n");
 	recvfrom(recv_socket, packet_buffer, probe_packet_length-1, 0, NULL, NULL);
+	//printf("finished sending receivefrom pakets \n");
 	current_seq_id = *((int*) packet_buffer);
 	//printf("Data = %s \n",packet_buffer);
 	//If there is no missing packets

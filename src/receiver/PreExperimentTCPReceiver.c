@@ -7,10 +7,6 @@
 
 #include "unitExperiment.h" /*Contains all Experiment Functions*/
 
-
-/*SERVER PORT*/
-#define PRE_TCP_SERVER_PORT 16400
-
 enum error_t PreExperimentTCPReceiver(int* num_of_packets,
                       unsigned long* inter_packet_departure_spacing,
                       int* probe_packet_length){

@@ -9,9 +9,6 @@
 
 #include "unitExperiment.h"
 
-
-#define UDP_PROBE_PORT_NUMBER "9876"
-
 enum error_t UDPTrainGenerator (int num_of_packets,
                        unsigned long inter_packet_departure_spacing,
                        int probe_packet_length,  

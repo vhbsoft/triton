@@ -7,9 +7,6 @@
 
 #include "unitExperiment.h" /*Contains all Experiment Functions*/
 
-/*SERVER PORT*/
-#define POST_TCP_SERVER_PORT 26400
-
 enum error_t PostExperimentTCPReceiver(char* send_buffer, int send_buffer_length)
 {
 

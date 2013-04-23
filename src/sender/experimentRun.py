@@ -11,6 +11,9 @@ import sys
 import datetime
 import time
 import ConfigParser
+import socket
+
+print "python code started \n"
 
 #Open Config File to Extract Values
 experiment_config_file_name = sys.argv[1]
@@ -29,6 +32,10 @@ log_file_path = config.get('DEFAULT', 'log_file_path')                   #receiv
 inter_experiment_sleep_time = config.getint('DEFAULT', 'inter_experiment_sleep_time') #receive from config file
 experiment_scenario_id = config.getint('DEFAULT', 'experiment_scenario_id') #receive from config file
 
+#convert any dns address to ip address
+compression_node_addr = socket.gethostbyname(compression_node_addr)
+dest_addr = socket.gethostbyname(dest_addr)
+
 #set time stamp
 current_time = datetime.datetime.now() #formatted time from python
 current_timestamp_string = current_time.strftime("%Y-%m-%d--%H-%M")
@@ -41,9 +48,13 @@ log_data_file = log_file_path + current_timestamp_string + str(experiment_scenar
 #open log file to write to
 log_file = open(log_data_file, 'w+')
 
+print ("log data file : " + log_data_file + " created\n")
+
 #arguments to be given to subprocess
 args = ["./unitExperimentSender",num_of_packets,inter_packet_departure_spacing,probe_packet_length, results_data_file, dest_addr,compression_node_addr, udp_session_timeout,"L"]
 str_args = [ str(x) for x in args ] #convert args to string
+
+print ("running unitExperiment Sender\n")
 
 # Execute the following command in terminal
 #./unitExperimentSender num_of_packets inter_packet_departure_spacing probe_packet_length "results_data_file" "dest_addr" "compression_node_addr" timeout 'L' > log_data_file
@@ -57,6 +68,7 @@ log_file.close()
 
 
 # Wait 1 minute after first unitExperiment is done
+print ("Sleeping for " + str(inter_experiment_sleep_time)+" seconds")
 time.sleep(inter_experiment_sleep_time)
 
 #reset time stamp
@@ -71,9 +83,13 @@ log_data_file = log_file_path + current_timestamp_string + str(experiment_scenar
 #open log file to write to
 log_file = open(log_data_file, 'w+')
 
+print ("log data file : " + log_data_file + " created\n")
+
 #arguments to be given to subprocess
 args = ["./unitExperimentSender",num_of_packets,inter_packet_departure_spacing,probe_packet_length, results_data_file, dest_addr,compression_node_addr, udp_session_timeout,"H"]
 str_args = [ str(x) for x in args ] #convert args to string
+
+print ("running unitExperiment Sender\n")
 
 # Execute the following command in terminal
 #./unitExperimentSender num_of_packets inter_packet_departure_spacing probe_packet_length "results_data_file" "dest_addr" "compression_node_addr" timeout 'H' > log_data_file
