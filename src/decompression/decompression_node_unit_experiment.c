@@ -126,7 +126,8 @@ enum error_t DecompressionNodeUnitExperiment(bool applied_compression,
 
 int main (int argc, char *argv[])
 {
-  return (DecompressionNodeUnitExperiment (argv[1], argv[2]) == SUCCESS);
+  int toCompress = atoi(argv[1]);
+  return (DecompressionNodeUnitExperiment (toCompress, argv[2]) == SUCCESS);
 }
 
 

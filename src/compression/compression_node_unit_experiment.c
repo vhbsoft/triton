@@ -130,7 +130,8 @@ enum error_t CompressionNodeUnitExperiment(bool apply_compression,
 
 int main (int argc, char *argv[])
 {
-  return (CompressionNodeUnitExperiment (argv[1], argv[2]) == SUCCESS);
+  int toCompress = atoi(argv[1]);
+  return (CompressionNodeUnitExperiment (toCompress, argv[2]) == SUCCESS);
 }
 
 
