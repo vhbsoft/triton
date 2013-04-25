@@ -41,17 +41,18 @@ current_time = datetime.datetime.now() #formatted time from python
 current_timestamp_string = current_time.strftime("%Y-%m-%d--%H-%M")
 
 # Run for low entropy
-entropy = 'L'
-results_data_file = results_data_file_path + current_timestamp_string + str(experiment_scenario_id)  + '_L.dat'
-log_data_file = log_file_path + current_timestamp_string + str(experiment_scenario_id)  + '_L.log'
+entropy = "L"
+results_data_file = results_data_file_path + current_timestamp_string + str(experiment_scenario_id)  + '_'+entropy+".dat'
+log_data_file = log_file_path + current_timestamp_string + str(experiment_scenario_id)  + '_'+entropy+'.log'
 
 #open log file to write to
 log_file = open(log_data_file, 'w+')
 
-print ("log data file : " + log_data_file + " created\n")
+print ("results data file : " + results_data_file + " \n")
+print ("log data file : " + log_data_file + " \n"))
 
 #arguments to be given to subprocess
-args = ["./unitExperimentSender",num_of_packets,inter_packet_departure_spacing,probe_packet_length, results_data_file, dest_addr,compression_node_addr, udp_session_timeout,"L"]
+args = ["./unitExperimentSender",num_of_packets,inter_packet_departure_spacing,probe_packet_length, results_data_file, dest_addr,compression_node_addr, udp_session_timeout,entropy]
 str_args = [ str(x) for x in args ] #convert args to string
 
 print ("running unitExperiment Sender\n")
@@ -77,13 +78,14 @@ time.sleep(inter_experiment_sleep_time)
 
 # Run for high entropy
 entropy = 'H'
-results_data_file = results_data_file_path + current_timestamp_string+ str(experiment_scenario_id)  + '_H.dat'
-log_data_file = log_file_path + current_timestamp_string + str(experiment_scenario_id)  + '_H.log'
+results_data_file = results_data_file_path + current_timestamp_string+ str(experiment_scenario_id)  + '_'+entropy+".dat'
+log_data_file = log_file_path + current_timestamp_string + str(experiment_scenario_id)  + '_'+entropy+'.log'
 
 #open log file to write to
 log_file = open(log_data_file, 'w+')
 
-print ("log data file : " + log_data_file + " created\n")
+print ("results data file : " + results_data_file + " \n")
+print ("log data file : " + log_data_file + " \n")
 
 #arguments to be given to subprocess
 args = ["./unitExperimentSender",num_of_packets,inter_packet_departure_spacing,probe_packet_length, results_data_file, dest_addr,compression_node_addr, udp_session_timeout,"H"]
