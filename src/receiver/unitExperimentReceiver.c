@@ -18,7 +18,7 @@ struct thread_data
 };
 
 char send_buffer[MAX_SEND_BUFFER_SIZE]; //Hardcoded based on max number of probe packets in each experiment = 6000
-int send_buffer_length = 0;
+unsigned long send_buffer_length = 0;
 
 void w_UDPTrainGenerator(struct thread_data* td)
 {
@@ -40,15 +40,19 @@ int main(int argc, char *argv[])
   int                probe_packet_length;
 
 //must loop twice for both low and high entropy  
-  int experiment_iterator;
-  for(experiment_iterator=0;experiment_iterator<2;experiment_iterator++)
+  //int experiment_iterator;
+  //for(experiment_iterator=0;experiment_iterator<2;experiment_iterator++)
+  
+  //Infinite loop for receiver
+  while(1)
   {
   /* Initialize send_buffer to null char*/
   int i;
   for(i=0; i<MAX_SEND_BUFFER_SIZE;i++){
     send_buffer[i] = 0;
   }
-
+  send_buffer_length = 0;
+  
   /*Call initial TCP Connection to Set up receiver*/
   if(PreExperimentTCPReceiver(&num_of_packets, &inter_packet_departure_spacing, 
                               &probe_packet_length) != 0)

@@ -3,9 +3,11 @@
 
 /* Globally Defined Send Buffer Length*/
 #define MAX_SEND_BUFFER_SIZE 150000
+#define MAX_PACKET_SIZE 10000
 #define POST_TCP_SERVER_PORT 26400
 #define PRE_TCP_SERVER_PORT 16400
 #define UDP_PROBE_PORT_NUMBER "9876"
+
 
 enum error_t {
  SUCCESS                              = 0,
@@ -67,7 +69,7 @@ enum error_t PostExperimentTCPConnection(
 
 enum error_t PostExperimentTCPReceiver(
         char* send_buffer, //The Data that was received during UDP connection
-        int send_buffer_length //Length of Buffer received during UDP connection
+        unsigned long send_buffer_length //Length of Buffer received during UDP connection
         );
 
 #endif

@@ -12,12 +12,12 @@ enum error_t PostExperimentTCPConnection(char*  experiment_run_log_absolute_file
 
   /*Declertion of Constants*/
   const int IP_ADDRESS_BUFFER_LENGTH = 16;   /*length of buffer for IP Address*/
-  const size_t INTEGER_SIZE=sizeof(int);     /*Length of integer*/
+  const size_t LONG_SIZE=sizeof(unsigned long);     /*Length of integer*/
 
   /*Variable Creation and Initializaiton*/
   int sock;                                  /* Socket descriptor */
   struct sockaddr_in servAddr;               /* Server address */
-  int buffer_rec_length = 0;		     /* Number of Bytes Received to Buffer */
+  unsigned long  buffer_rec_length = 0;		     /* Number of Bytes Received to Buffer */
   char recBuffer[MAX_SEND_BUFFER_SIZE];      /* Buffer for sending packets */
   char servIP[IP_ADDRESS_BUFFER_LENGTH];     /* Server IP address (dotted quad) */
   strcpy( servIP, dest_addr);                /*Initialize the servIP with Destination Address*/
@@ -44,12 +44,12 @@ enum error_t PostExperimentTCPConnection(char*  experiment_run_log_absolute_file
   printf("\n Receiving Data Length ...\n");
 
   /* Receive Data Length*/
-  if (recv(sock, &buffer_rec_length, INTEGER_SIZE , 0) <= 0){
+  if (recv(sock, &buffer_rec_length, LONG_SIZE , 0) <= 0){
     fprintf(stderr, "ERROR #%d: Receive Data Error", RECEIVE_ERROR);
     return RECEIVE_ERROR;
   }
 
-  printf("\n Finished Receiving Data Length = %d \n Receiving Data... \n", buffer_rec_length);
+  printf("\n Finished Receiving Data Length = %lu \n Receiving Data... \n", buffer_rec_length);
 
   /* Receive Data */
   if (recv(sock, recBuffer, buffer_rec_length , MSG_WAITALL) <= 0){

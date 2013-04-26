@@ -7,11 +7,11 @@
 
 #include "unitExperiment.h" /*Contains all Experiment Functions*/
 
-enum error_t PostExperimentTCPReceiver(char* send_buffer, int send_buffer_length)
+enum error_t PostExperimentTCPReceiver(char* send_buffer, unsigned long  send_buffer_length)
 {
 
   /*Declertion of Constants*/
-  const size_t INTEGER_SIZE=sizeof(int);     /*Length of integer*/
+  const size_t LONG_SIZE=sizeof(unsigned long);     /*Length of integer*/
   //const unsigned int BUFFER_SEND_LENGTH=send_buffer_length;  /* Length of send buffer */
   //const int IP_ADDRESS_BUFFER_LENGTH = 16;   /*length of buffer for IP Address*/
 
@@ -67,11 +67,11 @@ enum error_t PostExperimentTCPReceiver(char* send_buffer, int send_buffer_length
   } 
   
   /* Send the length of the data to the server */
-  int size_of_buffer = strlen(sendBuffer);
+  unsigned long size_of_buffer = strlen(sendBuffer);
  
-  printf("%d %s \n", size_of_buffer, sendBuffer);
+  printf("%lu %s \n", size_of_buffer, sendBuffer);
  
-  if (send(clntSock, &size_of_buffer, INTEGER_SIZE, 0) != INTEGER_SIZE)
+  if (send(clntSock, &size_of_buffer, LONG_SIZE, 0) != LONG_SIZE)
   {
     fprintf(stderr, "ERROR #%d: Send Data Error", SEND_ERROR);
     return SEND_ERROR;
