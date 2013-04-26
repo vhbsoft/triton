@@ -84,7 +84,9 @@ enum error_t UDPTrainGenerator (int num_of_packets,
 
           //to incorperate inter packet departure spacing
           //nanosleep(&inter_packet_departure_spacing_struct, &remaining_departure_spacing);
-          usleep(inter_packet_departure_spacing);
+          //usleep(inter_packet_departure_spacing);
+          int sleep_time;
+          for(sleep_time=0;sleep_time < inter_packet_departure_spacing;sleep_time++){}
     }
 
   freeaddrinfo (dest_addr_info);
