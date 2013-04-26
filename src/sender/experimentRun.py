@@ -30,7 +30,7 @@ compression_node_addr = config.get('DEFAULT', 'compression_node_addr')   #receiv
 results_data_file_path = config.get('DEFAULT', 'results_data_file_path') #receive from config file
 log_file_path = config.get('DEFAULT', 'log_file_path')                   #receive from config file
 inter_experiment_sleep_time = config.getint('DEFAULT', 'inter_experiment_sleep_time') #receive from config file
-experiment_scenario_id = config.getint('DEFAULT', 'experiment_scenario_id') #receive from config file
+experiment_scenario_id = config.get('DEFAULT', 'experiment_scenario_id') #receive from config file
 
 #convert any dns address to ip address
 compression_node_addr = socket.gethostbyname(compression_node_addr)
@@ -42,14 +42,14 @@ current_timestamp_string = current_time.strftime("%Y-%m-%d--%H-%M")
 
 # Run for low entropy
 entropy = "L"
-results_data_file = results_data_file_path + current_timestamp_string + str(experiment_scenario_id)  + '_'+entropy+".dat'
-log_data_file = log_file_path + current_timestamp_string + str(experiment_scenario_id)  + '_'+entropy+'.log'
+results_data_file = results_data_file_path + current_timestamp_string + experiment_scenario_id  + '_'+entropy+'.dat'
+log_data_file = log_file_path + current_timestamp_string + experiment_scenario_id  + '_'+entropy+'.log'
 
 #open log file to write to
 log_file = open(log_data_file, 'w+')
 
 print ("results data file : " + results_data_file + " \n")
-print ("log data file : " + log_data_file + " \n"))
+print ("log data file : " + log_data_file + " \n")
 
 #arguments to be given to subprocess
 args = ["./unitExperimentSender",num_of_packets,inter_packet_departure_spacing,probe_packet_length, results_data_file, dest_addr,compression_node_addr, udp_session_timeout,entropy]
@@ -78,8 +78,8 @@ time.sleep(inter_experiment_sleep_time)
 
 # Run for high entropy
 entropy = 'H'
-results_data_file = results_data_file_path + current_timestamp_string+ str(experiment_scenario_id)  + '_'+entropy+".dat'
-log_data_file = log_file_path + current_timestamp_string + str(experiment_scenario_id)  + '_'+entropy+'.log'
+results_data_file = results_data_file_path + current_timestamp_string+ experiment_scenario_id  + '_'+entropy+'.dat'
+log_data_file = log_file_path + current_timestamp_string + experiment_scenario_id  + '_'+entropy+'.log'
 
 #open log file to write to
 log_file = open(log_data_file, 'w+')
