@@ -4,6 +4,7 @@
 /* Globally Defined Send Buffer Length*/
 #define MAX_SEND_BUFFER_SIZE 150000
 #define MAX_PACKET_SIZE 10000
+#define IP_ADDRESS_LENGTH  15
 #define POST_TCP_SERVER_PORT 26400
 #define PRE_TCP_SERVER_PORT 16400
 #define UDP_PROBE_PORT_NUMBER "9876"
@@ -53,14 +54,17 @@ enum error_t UDPTrainGenerator(
 	unsigned long inter_packet_departure_spacing,
 	int probe_packet_length,
 	char entropy,
-	char* compression_node_addr
+	char* compression_node_addr,
+	char* source_addr
 	);
 
-enum error_t UDPTrainReceiver(
-	char* buffer, 
-	unsigned long* buffer_length, 
-	int probe_packet_length
-);
+enum error_t UDPTrainReceiver (
+  char* buffer, 
+  unsigned long* buffer_length, 
+  int probe_packet_length, 
+  unsigned long initial_experiment_run_time, 
+  unsigned long later_experiment_run_time
+  );
 
 enum error_t PostExperimentTCPConnection(
         char*  experiment_run_log_absolute_filename, //Log File Name to Be Created
