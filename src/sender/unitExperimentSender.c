@@ -24,21 +24,19 @@ int main(int argc, char *argv[])
   char*              compression_node_addr = argv[6];
   unsigned long      packet_train_timeout = strtoul(argv[7],0,0);     //[0,10^6]     in msec
   char*              entropy = argv[8]; 
- //char*              source_addr = argv[9];
-  char*              source_addr = "127.000.000.001";
   int timeout_estimation = 3;
 
-  /*Call initial TCP Connection to Set up receiver
+  /*Call initial TCP Connection to Set up receiver*/
   if(PreExperimentTCPConnection(num_of_packets,inter_packet_departure_spacing,
                       probe_packet_length,&timeout_estimation,dest_addr) != 0)
   {
     fprintf(stderr, "ERROR #%d: PreExperiment TCP Sender Error", PRE_EXPERIMENT_TCP_SENDER_FAILED);
     return PRE_EXPERIMENT_TCP_SENDER_FAILED;                    
-  }*/
+  }
 
   /*Call UDP Connection to Send Data to Receiver*/
   if(UDPTrainGenerator(num_of_packets,inter_packet_departure_spacing,  
-                      probe_packet_length,entropy[0],compression_node_addr, source_addr) != 0)
+                      probe_packet_length,entropy[0],compression_node_addr) != 0)
   {
     fprintf(stderr, "ERROR #%d: UDP Train Generator Error", UDP_TRAIN_GENERATOR_FAILED);
     return UDP_TRAIN_GENERATOR_FAILED;                    
@@ -47,12 +45,12 @@ int main(int argc, char *argv[])
   /*CREATE WAIT TIMEOUT FUNCTION*/
   sleep(packet_train_timeout);
 
-  /*Call Final TCP Connection to receive packets
+  /*Call Final TCP Connection to receive packets*/
   if(PostExperimentTCPConnection(experiment_run_log_absolute_filename, dest_addr) != 0)
   {
     fprintf(stderr, "ERROR #%d: PostExperiment TCP Sender Error", POST_EXPERIMENT_TCP_SENDER_FAILED);
     return POST_EXPERIMENT_TCP_SENDER_FAILED;                    
-  }*/
+  }
 
   return SUCCESS;
 }
