@@ -9,6 +9,19 @@
 
 #include "unitExperiment.h"
 
+struct timespec diff(struct timespec start, struct timespec end)
+{
+	struct timespec temp;
+	if ((end.tv_nsec-start.tv_nsec)<0) {
+		temp.tv_sec = end.tv_sec-start.tv_sec-1;
+		temp.tv_nsec = 1000000000+end.tv_nsec-start.tv_nsec;
+	} else {
+		temp.tv_sec = end.tv_sec-start.tv_sec;
+		temp.tv_nsec = end.tv_nsec-start.tv_nsec;
+	}
+	return temp;
+}
+
 enum error_t UDPTrainGenerator (int num_of_packets,
                        unsigned long inter_packet_departure_spacing,
                        int probe_packet_length,  
@@ -16,7 +29,6 @@ enum error_t UDPTrainGenerator (int num_of_packets,
                        char* compression_node_addr
 )
 {
-
   // Set up send_socket
   struct addrinfo hints;
   memset(&hints, 0, sizeof hints);
@@ -75,18 +87,27 @@ enum error_t UDPTrainGenerator (int num_of_packets,
 
   //struct timespec remaining_departure_spacing;
 
+  //inter_packet_departure_spacing = 100000;
+  struct timespec currentTime, lastSendTime;
+  clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &lastSendTime);
   while (packet_seq_id < num_of_packets)
     {
-
-	  sendto(send_socket, packet_data, probe_packet_length, 0, dest_addr_info->ai_addr, dest_addr_info->ai_addrlen); 
-	  packet_seq_id++;
-	  *((int*) packet_data) = packet_seq_id;
+	clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &currentTime);
+	if (diff (lastSendTime, currentTime).tv_nsec >= inter_packet_departure_spacing)
+	   {
+		//clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &lastSendTime);
+		sendto(send_socket, packet_data, probe_packet_length, 0, 
+		       dest_addr_info->ai_addr, dest_addr_info->ai_addrlen);
+		lastSendTime = currentTime;
+		packet_seq_id++;
+	    	*((int*) packet_data) = packet_seq_id;
+	  }
 
           //to incorperate inter packet departure spacing
           //nanosleep(&inter_packet_departure_spacing_struct, &remaining_departure_spacing);
           //usleep(inter_packet_departure_spacing);
-          unsigned long sleep_time;
-          for(sleep_time=0;sleep_time < inter_packet_departure_spacing;sleep_time++){}
+          //unsigned long sleep_time;
+          //for(sleep_time=0;sleep_time < inter_packet_departure_spacing;sleep_time++){printf("a");}
     }
 
   freeaddrinfo (dest_addr_info);

@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 #
 # Python script to run both low and high entropy and 
 # write the data results into a file at the sender

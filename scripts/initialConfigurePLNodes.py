@@ -1,3 +1,4 @@
+#!/usr/bin/python
 
 #initalConfigurePLNodes.py
 #Version 1.0
@@ -118,38 +119,54 @@ for planetlab_hostname in planetlab_host_file.readlines():
 	  print '%s' % line
   for line in stderr.read().splitlines():
 	  print '%s' % line
-  #print "finished make1\n"
+  print "finished make1\n"
   time.sleep(1)
 
-  print "Compiling Receiver \n"
-  stdin,stdout,stderr = ssh.exec_command("cd ~/triton_1_0/triton/src/receiver/; sudo make;")
-  stdin.write(planetlab_password)
-  stdin.flush()
-  for line in stdout.read().splitlines():
-	  print '%s' % line
-  for line in stderr.read().splitlines():
-	  print '%s' % line
+#  print "Compiling Receiver \n"
+#  stdin,stdout,stderr = ssh.exec_command("cd ~/triton_1_0/triton/src/receiver/; sudo make;")
+#  stdin.write(planetlab_password)
+#  stdin.flush()
+#  for line in stdout.read().splitlines():
+#	  print '%s' % line
+#  for line in stderr.read().splitlines():
+#	  print '%s' % line
   #print "finished make2\n"
-  time.sleep(1)
+#  time.sleep(1)
 
-  print "Compiling Compression \n"
-  stdin,stdout,stderr = ssh.exec_command("cd ~/triton_1_0/triton/src/compression/; sudo make;")
-  stdin.write(planetlab_password)
-  stdin.flush()
-  for line in stdout.read().splitlines():
-	  print '%s' % line
-  for line in stderr.read().splitlines():
-	  print '%s' % line
+#  print "Compiling Compression \n"
+#  stdin,stdout,stderr = ssh.exec_command("cd ~/triton_1_0/triton/src/compression/; sudo make;")
+#  stdin.write(planetlab_password)
+#  stdin.flush()
+#  for line in stdout.read().splitlines():
+#	  print '%s' % line
+#  for line in stderr.read().splitlines():
+#	  print '%s' % line
   #print "finished make3\n"
-  time.sleep(1)
+#  time.sleep(1)
 
-  print "Compiling Decompression \n"
-  stdin,stdout,stderr = ssh.exec_command("cd ~/triton_1_0/triton/src/decompression/; sudo make;")
-  stdin.write(planetlab_password)
-  stdin.flush()
+#  print "Compiling Decompression \n"
+#  stdin,stdout,stderr = ssh.exec_command("cd ~/triton_1_0/triton/src/decompression/; sudo make;")
+#  stdin.write(planetlab_password)
+#  stdin.flush()
+#  for line in stdout.read().splitlines():
+#	  print '%s' % line
+#  for line in stderr.read().splitlines():
+#	  print '%s' % line
+#  time.sleep(1)
+
+
+  ###########################################
+  #Set Python scripts to executable
+  ###########################################
+
+  print "Setting experimentRun.py to executable\n"
+  stdin,stdout,stderr = ssh.exec_command("cd ~/triton_1_0/triton/src/sender/; chmod a+x experimentRun.py;")
   for line in stdout.read().splitlines():
 	  print '%s' % line
   for line in stderr.read().splitlines():
 	  print '%s' % line
   time.sleep(1)
+
+
+
 
