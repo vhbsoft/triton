@@ -1,0 +1,9 @@
+UDP_source_port: 9876
+UDP_dest_port: 8765
+TCP_dest_port_headSyn: 13200
+TCP_dest_port_tailSyn: 13201
+TCP_dest_port_part1: 13000
+UDP_payload_size:1100
+UDP_packet_number: 6000
+compression_link_capacity: 10Mbps
+output_file:compression_link_output
